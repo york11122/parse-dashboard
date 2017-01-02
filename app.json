@@ -1,0 +1,15 @@
+{
+  "name": "Parse Dashboard Heroku",
+  "description": "Run Parse dashboard on Heroku",
+  "repository": "https://github.com/didierfranc/parse-dashboard-heroku/",
+  "logo": "https://raw.githubusercontent.com/didierfranc/parse-logo/master/logo.png",
+  "env": {
+    "PARSE_DASHBOARD_SERVER_URL": "https://yorkparseserver.herokuapp.com/parse",
+    "PARSE_DASHBOARD_APP_NAME": "sss",
+    "PARSE_DASHBOARD_MASTER_KEY": "sss",
+    "PARSE_DASHBOARD_APP_ID": "sss",
+    "PARSE_DASHBOARD_USER_ID": "aa",
+    "PARSE_DASHBOARD_USER_PASSWORD": "aa",
+    "PARSE_DASHBOARD_ALLOW_INSECURE_HTTP": "true"
+  }
+}
