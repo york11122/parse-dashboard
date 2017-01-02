@@ -7,5 +7,6 @@
     "appName": "york",
     "iconName": ""
   }],
+  "trustProxy": 1,
   "iconsFolder": "icons"
 }
