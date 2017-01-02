@@ -1,4 +1,5 @@
 {
+  "allowInsecureHTTP": true,
   "apps": [{
     "serverURL": "https://york11122parse.herokuapp.com/parse",
     "appId": "0bnzBHBAqXzVodvltIO7bWkI17qHxTQTbnVGIJUD",
