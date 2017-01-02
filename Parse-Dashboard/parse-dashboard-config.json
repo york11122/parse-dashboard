@@ -6,7 +6,7 @@
     "masterKey": "XNOINukJSwlBKmXUygDcQFIwLFuJfySJLhkE3AgC",
     "appName": "york",
     "iconName": "",
-    "allowInsecureHTTP":"true"
+    "allowInsecureHTTP": true
   }],
   "users": [
     {
