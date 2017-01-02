@@ -5,8 +5,20 @@
     "appId": "0bnzBHBAqXzVodvltIO7bWkI17qHxTQTbnVGIJUD",
     "masterKey": "XNOINukJSwlBKmXUygDcQFIwLFuJfySJLhkE3AgC",
     "appName": "york",
-    "iconName": ""
+    "iconName": "",
+    "allowInsecureHTTP":true
   }],
+   "users": [
+    {
+      "user":"user1",
+      "pass":"pass"
+    },
+    {
+      "user":"user2",
+      "pass":"pass"
+    }
+  ],
+  "useEncryptedPasswords": true | false,
   "trustProxy": 1,
   "iconsFolder": "icons"
 }
