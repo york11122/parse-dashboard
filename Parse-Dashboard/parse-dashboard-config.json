@@ -1,9 +1,9 @@
 {
   "apps": [{
-    "serverURL": "",
-    "appId": "",
-    "masterKey": "",
-    "appName": "",
+    "serverURL": "https://york11122parse.herokuapp.com/parse",
+    "appId": "0bnzBHBAqXzVodvltIO7bWkI17qHxTQTbnVGIJUD",
+    "masterKey": "XNOINukJSwlBKmXUygDcQFIwLFuJfySJLhkE3AgC",
+    "appName": "york",
     "iconName": ""
   }],
   "iconsFolder": "icons"
