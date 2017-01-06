@@ -2,8 +2,8 @@
   "allowInsecureHTTP": true,
   "apps": [{
     "serverURL": "https://yorkparseserver.herokuapp.com/parse",
-    "appId": "0bnzBHBAqXzVodvltIO7bWkI17qHxTQTbnVGIJUD",
-    "masterKey": "XNOINukJSwlBKmXUygDcQFIwLFuJfySJLhkE3AgC",
+    "appId": "windripple",
+    "masterKey": "windripple",
     "appName": "york",
     "iconName": "",
     "allowInsecureHTTP": true
