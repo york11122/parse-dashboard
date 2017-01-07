@@ -4,7 +4,7 @@
     "serverURL": "https://yorkparseserver.herokuapp.com/parse",
     "appId": "windripple",
     "masterKey": "windripple",
-    "appName": "york",
+    "appName": "飯糰超人資料",
     "iconName": "",
     "allowInsecureHTTP": true
   }],
