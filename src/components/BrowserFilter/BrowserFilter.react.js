@@ -51,14 +51,14 @@ export default class BrowserFilter extends React.Component {
       }
 
       console.log(available);
-      filters = new List([new Map({ field: field, constraint: available[field][0] })]);
+      //filters = new List([new Map({ field: field, constraint: available[field][0] })]);
     }
-
+    
     this.setState({
       open: true,
-      filters: new List(),
+      filters: filters,
     });
-    
+
     this.props.setCurrent(null);
   }
 
