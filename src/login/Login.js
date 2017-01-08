@@ -31,7 +31,7 @@ export default class Login extends React.Component {
 
     return (
       <LoginForm
-        header='Access your Dashboard'
+        header='Access youer Dashboard'
         action='Log In'
         endpoint={`${path}login`}
         >

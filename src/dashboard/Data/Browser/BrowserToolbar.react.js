@@ -128,7 +128,11 @@ let BrowserToolbar = ({
       subsection={subsection}
       details={details.join(' \u2022 ')}
     >
-      <a className={styles.toolbarButton} onClick={onAddRow}>
+      <a className={styles.toolbarButton} onClick={() => onDeleteRows(selection)}>
+        <Icon name='minus-solid' width={14} height={14} />
+        <span>Delete Row</span>
+      </a>
+      <a className={styles.toolbarButton}>
         <Icon name='plus-solid' width={14} height={14} />
         <span>Add Row</span>
       </a>

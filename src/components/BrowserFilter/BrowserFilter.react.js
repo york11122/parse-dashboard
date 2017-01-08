@@ -44,18 +44,57 @@ export default class BrowserFilter extends React.Component {
     if (this.props.filters.size === 0) {
       let available = Filters.availableFilters(this.props.schema, null, BLACKLISTED_FILTERS);
       let field = Object.keys(available)[0];
+
+      if(Object.keys(available).indexOf("gacha1") !== -1)
+      {
+        field =  Object.keys(available)[Object.keys(available).indexOf("gacha1")];
+      }
+
+      console.log(available);
       filters = new List([new Map({ field: field, constraint: available[field][0] })]);
     }
+
     this.setState({
       open: true,
-      filters: filters,
+      filters: new List(),
     });
+    
     this.props.setCurrent(null);
   }
+
+
 
   addRow() {
     let available = Filters.availableFilters(this.props.schema, this.state.filters, BLACKLISTED_FILTERS);
     let field = Object.keys(available)[0];
+    this.setState(({ filters }) => ({
+      filters: filters.push(new Map({ field: field, constraint: available[field][0] })),
+    }));
+  }
+
+  addRowGacha1()
+  {
+    let available = Filters.availableFilters(this.props.schema, this.state.filters, BLACKLISTED_FILTERS);
+    let field = Object.keys(available)[0];
+
+    if(Object.keys(available).indexOf("gacha1") !== -1)
+    {
+        field =  Object.keys(available)[Object.keys(available).indexOf("gacha1")];
+    }
+    this.setState(({ filters }) => ({
+      filters: filters.push(new Map({ field: field, constraint: available[field][0] })),
+    }));
+  }
+
+  addRowGacha2()
+  {
+    let available = Filters.availableFilters(this.props.schema, this.state.filters, BLACKLISTED_FILTERS);
+    let field = Object.keys(available)[0];
+
+    if(Object.keys(available).indexOf("gacha2") !== -1)
+    {
+        field =  Object.keys(available)[Object.keys(available).indexOf("gacha2")];
+    }
     this.setState(({ filters }) => ({
       filters: filters.push(new Map({ field: field, constraint: available[field][0] })),
     }));
@@ -106,22 +145,34 @@ export default class BrowserFilter extends React.Component {
               <div className={styles.footer}>
                 <Button
                   color='white'
-                  value='Clear all'
-                  disabled={this.state.filters.size === 0}
-                  width='120px'
-                  onClick={this.clear.bind(this)} />
-                <Button
-                  color='white'
                   value='Add filter'
                   disabled={Object.keys(available).length === 0}
-                  width='120px'
+                  width='90px'
                   onClick={this.addRow.bind(this)} />
                 <Button
                   color='white'
+                  value='Clear all'
+                  disabled={this.state.filters.size === 0}
+                  width='90px'
+                  onClick={this.clear.bind(this)} />
+                <Button
+                  color='white'
                   primary={true}
-                  value='Apply these filters'
-                  width='245px'
+                  value='Apply'
+                  width='120px'
                   onClick={this.apply.bind(this)} />
+                <Button
+                  color='white'
+                  value='Gacha1'
+                  disabled={ Object.keys(available).indexOf("gacha1") === -1}
+                  width='90px'
+                  onClick={this.addRowGacha1.bind(this)} />
+                <Button
+                  color='white'
+                  value='Gacha2'
+                  disabled={ Object.keys(available).indexOf("gacha2") === -1}
+                  width='90px'
+                  onClick={this.addRowGacha2.bind(this)} />
               </div>
             </div>
           </div>

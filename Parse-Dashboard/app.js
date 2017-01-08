@@ -194,7 +194,7 @@ module.exports = function(config, allowInsecureHTTP) {
           </script>
         </head>
         <html>
-          <title>Parse Dashboard</title>
+          <title>Parse Dashboard1</title>
           <body>
             <div id="browser_mount"></div>
             <script src="${mountPath}bundles/dashboard.bundle.js"></script>
