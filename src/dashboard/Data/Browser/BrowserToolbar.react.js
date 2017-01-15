@@ -36,6 +36,7 @@ let BrowserToolbar = ({
   onExport,
   onRemoveColumn,
   onDeleteRows,
+  onGetAccount,
   onDropClass,
   onChangeCLP,
   onRefresh,
@@ -132,9 +133,9 @@ let BrowserToolbar = ({
         <Icon name='minus-solid' width={14} height={14} />
         <span>Delete Row</span>
       </a>
-      <a className={styles.toolbarButton}>
+      <a className={styles.toolbarButton} onClick={() => onGetAccount(selection)}>
         <Icon name='plus-solid' width={14} height={14} />
-        <span>Add Row</span>
+        <span>發布引繼碼</span>
       </a>
       <div className={styles.toolbarSeparator} />
       <a className={styles.toolbarButton} onClick={onRefresh}>

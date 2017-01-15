@@ -13,6 +13,7 @@ import DashboardView                      from 'dashboard/DashboardView.react';
 import DataBrowser                        from 'dashboard/Data/Browser/DataBrowser.react';
 import { DefaultColumns, SpecialClasses } from 'lib/Constants';
 import DeleteRowsDialog                   from 'dashboard/Data/Browser/DeleteRowsDialog.react';
+import GetAccountDialog                   from 'dashboard/Data/Browser/GetAccountDialog.react';
 import DropClassDialog                    from 'dashboard/Data/Browser/DropClassDialog.react';
 import EmptyState                         from 'components/EmptyState/EmptyState.react';
 import ExportDialog                       from 'dashboard/Data/Browser/ExportDialog.react';
@@ -31,6 +32,7 @@ import stringCompare                      from 'lib/stringCompare';
 import styles                             from 'dashboard/Data/Browser/Browser.scss';
 import subscribeTo                        from 'lib/subscribeTo';
 import * as ColumnPreferences             from 'lib/ColumnPreferences';
+import request                            from 'dashboard/Data/ApiConsole/request';
 
 @subscribeTo('Schema', 'schema')
 export default class Browser extends DashboardView {
@@ -48,7 +50,7 @@ export default class Browser extends DashboardView {
       showExportDialog: false,
       showAttachRowsDialog: false,
       rowsToDelete: null,
-
+      rowsToGetAccount: null,
       relation: null,
       counts: {},
       clp: {},
@@ -72,6 +74,7 @@ export default class Browser extends DashboardView {
     this.updateFilters = this.updateFilters.bind(this);
     this.showRemoveColumn = this.showRemoveColumn.bind(this);
     this.showDeleteRows = this.showDeleteRows.bind(this);
+    this.showGetAccounts = this.showGetAccounts.bind(this);
     this.showDropClass = this.showDropClass.bind(this);
     this.showExport = this.showExport.bind(this);
     this.showAttachRowsDialog = this.showAttachRowsDialog.bind(this);
@@ -195,6 +198,10 @@ export default class Browser extends DashboardView {
 
   showDeleteRows(rows) {
     this.setState({ rowsToDelete: rows });
+  }
+
+  showGetAccounts(rows) {
+    this.setState({ rowsToGetAccount: rows });
   }
 
   showDropClass() {
@@ -453,8 +460,11 @@ export default class Browser extends DashboardView {
   }
 
   updateRow(row, attr, value) {
+    console.log(row)
     const isNewObject = row < 0;
-    const obj = isNewObject ? this.state.newObject : this.state.data[row];
+    var obj = isNewObject ? this.state.newObject : this.state.data[row];
+    if(typeof row ==="object") obj = row;
+
     if (!obj) {
       return;
     }
@@ -520,8 +530,9 @@ export default class Browser extends DashboardView {
     });
   }
 
-  deleteRows(rows) {
-    this.setState({ rowsToDelete: null, selection: {} });
+
+  bindAccounts(rows) {
+     this.setState({ rowsToDelete: null, selection: {} });
     let className = this.props.params.className;
     if (!this.state.relation && rows['*']) {
       this.context.currentApp.clearCollection(className).then(() => {
@@ -575,6 +586,127 @@ export default class Browser extends DashboardView {
     }
   }
 
+  GetAccount(rows) {
+     this.setState({ rowsToGetAccount: null, selection: {} });
+    let className = this.props.params.className;
+    if (!this.state.relation && rows['*']) {
+      this.context.currentApp.clearCollection(className).then(() => {
+        if (this.props.params.className === className) {
+          this.state.counts[className] = 0;
+          this.setState({
+            data: [],
+            lastMax: 200,
+            selection: {},
+          });
+        }
+      });
+    } else {
+      let indexes = [];
+      let toDelete = [];
+      let seeking = Object.keys(rows).length;
+      for (let i = 0; i < this.state.data.length && indexes.length < seeking; i++) {
+        let obj = this.state.data[i];
+        if (!obj || !obj.id) {
+          continue;
+        }
+        if (rows[obj.id]) {
+          indexes.push(i);
+          toDelete.push(this.state.data[i]);
+        }
+      }
+      let relation = this.state.relation;
+      if (relation && toDelete.length) {
+        relation.remove(toDelete);
+        relation.parent.save(null, { useMasterKey: true }).then(() => {
+          if (this.state.relation === relation) {
+            for (let i = 0; i < indexes.length; i++) {
+              this.state.data.splice(indexes[i] - i, 1);
+            }
+            this.setState({
+              relationCount: this.state.relationCount - toDelete.length,
+            });
+          }
+        });
+      } else if (toDelete.length) {
+          console.log(toDelete.length)
+          if(toDelete.length > 1){return;}
+             
+           
+          this.updateRow(toDelete[0],"badges1","已發布引繼碼");
+
+          request(
+          {
+            "serverURL":"https://yorkparseserver.herokuapp.com/parse",
+            "masterKey":"windripple",
+            "applicationId":"windripple"
+          },
+          'POST',
+          'jobs/GetAccount',
+          '{"duid":"'+toDelete[0].attributes.DUID+'","cv":118,"ver":1620,"gacha1":"'+toDelete[0].attributes.gacha1+'","gacha2":"'+toDelete[0].attributes.gacha2+'"}',
+          { useMasterKey: true });
+        }
+      
+    }
+
+  }
+
+  deleteRows(rows) {
+    this.setState({ rowsToDelete: null, selection: {} });
+    let className = this.props.params.className;
+    if (!this.state.relation && rows['*']) {
+      this.context.currentApp.clearCollection(className).then(() => {
+        if (this.props.params.className === className) {
+          this.state.counts[className] = 0;
+          this.setState({
+            data: [],
+            lastMax: 200,
+            selection: {},
+          });
+        }
+      });
+    } else {
+      let indexes = [];
+      let toDelete = [];
+      let seeking = Object.keys(rows).length;
+      for (let i = 0; i < this.state.data.length && indexes.length < seeking; i++) {
+        let obj = this.state.data[i];
+        if (!obj || !obj.id) {
+          continue;
+        }
+        if (rows[obj.id]) {
+          indexes.push(i);
+          toDelete.push(this.state.data[i]);
+        }
+      }
+      let relation = this.state.relation;
+      console.log(relation);
+      if (relation && toDelete.length) {
+        relation.remove(toDelete);
+        relation.parent.save(null, { useMasterKey: true }).then(() => {
+          if (this.state.relation === relation) {
+            for (let i = 0; i < indexes.length; i++) {
+              this.state.data.splice(indexes[i] - i, 1);
+            }
+            this.setState({
+              relationCount: this.state.relationCount - toDelete.length,
+            });
+          }
+        });
+      } else if (toDelete.length) {
+        Parse.Object.destroyAll(toDelete, { useMasterKey: true }).then(() => {
+          if (this.props.params.className === className) {
+            for (let i = 0; i < indexes.length; i++) {
+              this.state.data.splice(indexes[i] - i, 1);
+            }
+            this.state.counts[className] -= indexes.length;
+            this.forceUpdate();
+            console.log(toDelete);
+          }
+        })
+      }
+    }
+  }
+
   selectRow(id, checked) {
     this.setState(({ selection }) => {
       if (id === '*') {
@@ -597,6 +729,7 @@ export default class Browser extends DashboardView {
       this.state.showDropClassDialog ||
       this.state.showExportDialog ||
       this.state.rowsToDelete ||
+      this.state.rowsToGetAccount ||
       this.state.showAttachRowsDialog ||
       this.state.showAttachSelectedRowsDialog
     );
@@ -791,6 +924,7 @@ export default class Browser extends DashboardView {
             onFilterChange={this.updateFilters}
             onRemoveColumn={this.showRemoveColumn}
             onDeleteRows={this.showDeleteRows}
+            onGetAccount={this.showGetAccounts}
             onDropClass={this.showDropClass}
             onExport={this.showExport}
             onChangeCLP={this.handleCLPChange}
@@ -855,6 +989,15 @@ export default class Browser extends DashboardView {
           relation={this.state.relation}
           onCancel={() => this.setState({ rowsToDelete: null })}
           onConfirm={() => this.deleteRows(this.state.rowsToDelete)} />
+      );
+    } else if (this.state.rowsToGetAccount) {
+      extras = (
+        <GetAccountDialog
+          className={SpecialClasses[className] || className}
+          selection={this.state.rowsToGetAccount}
+          relation={this.state.relation}
+          onCancel={() => this.setState({ rowsToGetAccount: null })}
+          onConfirm={() => this.GetAccount(this.state.rowsToGetAccount)} />
       );
     } else if (this.state.showDropClassDialog) {
       extras = (
