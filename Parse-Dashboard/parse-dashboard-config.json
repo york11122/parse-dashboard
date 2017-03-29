@@ -1,7 +1,7 @@
 {
   "allowInsecureHTTP": true,
   "apps": [{
-    "serverURL": "https://yorktestparse.herokuapp.com/parse",
+    "serverURL": "https://yorkparseserver.herokuapp.com/parse",
     "appId": "windripple",
     "masterKey": "windripple",
     "appName": "飯糰超人資料",
