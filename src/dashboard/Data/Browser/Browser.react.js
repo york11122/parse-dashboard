@@ -642,7 +642,7 @@ export default class Browser extends DashboardView {
           },
           'POST',
           'jobs/GetAccount',
-          '{"duid":"'+toDelete[0].attributes.DUID+'","cv":522,"ver":520,"gacha1":"'+toDelete[0].attributes.gacha1+'","gacha2":"'+toDelete[0].attributes.gacha2+'"}',
+          '{"duid":"'+toDelete[0].attributes.DUID+'","cv":524,"ver":523,"gacha1":"'+toDelete[0].attributes.gacha1+'","gacha2":"'+toDelete[0].attributes.gacha2+'"}',
           { useMasterKey: true });
         }
       
